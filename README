@@ -1,0 +1,26 @@
+
+
+There is two implementation of the required program.
+
+1. is Using SQLite database
+2. Using Binary Search tree.
+
+1. SQLite database version can be enabled by uncommenting COMPILE_FOR=SQL_LITE in Makefile.
+   It will compile SQLite along wiht the program carddb.
+   During the compilation DUPLICATES (cardid) can also be enabled by adding -DALLOW_DUPLICATES to EXTRA_DEFINES in Makefile.
+   The program crates the SQL table with one column of int type ( 8 bytes long), if not present. Performs all insert, delete 
+   and find operations on this table.
+
+2. Instead of writing cardids to flat file, Binary Search tree is implemented in the File. All operations happen on the file.
+   No intermediate data structures are created to perform the requested actions.Also file is written in binary format.
+   The file wirtten it the following format.
+   <cardid><offset in file where left child is stored | -1><offset in file where right child is stored | -1>
+   By this way all average inserting, deletion and search takes log n time.
+   One limitation of the program is that it do not allow duplicates for the cardid.
+   If dulicates whre inserted it returns error code.
+   Also once a node is deleted from the file, that location becomes un usable for the next insertion.
+   To avoid this an external program or a separate module can be written which compacts or  removes this not usabel entries in
+   the file. 
+
+3. a seperate program printtree is written which reads the data base and prints the binray tree. The printed tree makes sense
+   if the inserted number ids are small ( 4 -5 digits ). This helped me in debuging the implementation and reproducing the bugs.
